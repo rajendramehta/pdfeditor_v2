@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,10 +15,54 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px 30px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .navbar-brand {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
+        .navbar-user {
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
+            gap: 15px;
+        }
+        
+        .user-email {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+        }
+        
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
         }
         
         .container {
@@ -25,14 +70,15 @@
             backdrop-filter: blur(10px);
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            padding: 40px;
+            padding: 30px;
             width: 100%;
             max-width: 900px;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            gap: 30px;
             position: relative;
             overflow: hidden;
+            margin: 0 auto;
         }
         
         .container::before {
@@ -48,7 +94,7 @@
         .left-panel {
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 20px;
         }
         
         .right-panel {
@@ -56,15 +102,24 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 25px;
+            gap: 20px;
+        }
+        
+        .logo-text {
+            color: #dc3545;
+            font-size: 1rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2px;
+            grid-column: 1 / -1;
         }
         
         h1 {
             color: #333;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 700;
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             grid-column: 1 / -1;
             background: linear-gradient(135deg, #667eea, #764ba2);
             -webkit-background-clip: text;
@@ -75,9 +130,9 @@
         .subtitle {
             text-align: center;
             color: #666;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             grid-column: 1 / -1;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
         
         .form-group {
@@ -174,6 +229,17 @@
             color: #667eea;
             font-weight: 500;
             display: none;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .file-item {
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+        }
+        
+        .file-item:last-child {
+            border-bottom: none;
         }
         
         .btn {
@@ -286,15 +352,15 @@
         .process-steps {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            margin-top: 20px;
+            gap: 12px;
+            margin-top: 15px;
         }
         
         .step {
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 15px;
+            gap: 12px;
+            padding: 12px;
             background: rgba(255, 255, 255, 0.7);
             border-radius: 10px;
             transition: all 0.3s ease;
@@ -319,6 +385,17 @@
         }
         
         @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .navbar-user {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
             .container {
                 grid-template-columns: 1fr;
                 gap: 30px;
@@ -340,12 +417,31 @@
             margin-top: 10px;
             text-align: center;
         }
+        
+        .multiple-files-info {
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: #667eea;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
+    <div class="navbar">
+        <a href="/app" class="navbar-brand">Document Text Replacer</a>
+        <div class="navbar-user">
+            <span class="user-email" id="userEmail">Welcome!</span>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
     <div class="container">
+        <div class="logo-text">Authenticated Version</div>
         <h1>Document Text Replacer</h1>
-        <p class="subtitle">Replace text in PDF, CSV, XML, and XPT files with ease</p>
+        <p class="subtitle">Replace text in PDF, CSV, XML, XPT files and ZIP folders with ease</p>
         
         <div class="left-panel">
             <div class="form-group">
@@ -359,15 +455,18 @@
             </div>
             
             <div class="form-group">
-                <label>📁 Upload Document</label>
+                <label>📁 Upload Documents</label>
                 <div class="file-upload-area" id="fileUploadArea">
                     <span class="upload-icon">⬆️</span>
-                    <div class="upload-text">Drop your file here or click to browse</div>
-                    <div class="upload-subtext">Supports PDF, CSV, XML, XPT files</div>
-                    <input type="file" id="pdf-file-input" accept=".pdf,.csv,.xml,.xpt">
+                    <div class="upload-text">Drop your files here or click to browse</div>
+                    <div class="upload-subtext">Supports PDF, CSV, XML, XPT files and ZIP folders</div>
+                    <input type="file" id="pdf-file-input" accept=".pdf,.csv,.xml,.xpt,.zip" multiple>
                     <div class="file-info" id="fileInfo"></div>
                 </div>
-                <div class="file-types">Supported formats: PDF, CSV, XML, XPT (Max 16MB)</div>
+                <div class="file-types">Supported formats: PDF, CSV, XML, XPT, ZIP (Max 50MB total)</div>
+                <div class="multiple-files-info">
+                    💡 You can select multiple files or upload a ZIP folder containing supported files
+                </div>
             </div>
         </div>
         
@@ -379,29 +478,75 @@
                 </div>
                 <div class="step">
                     <div class="step-number">2</div>
-                    <div class="step-text">Upload your document (PDF, CSV, XML, or XPT)</div>
+                    <div class="step-text">Upload multiple documents or a ZIP folder</div>
                 </div>
                 <div class="step">
                     <div class="step-number">3</div>
-                    <div class="step-text">Click process to generate your modified file</div>
+                    <div class="step-text">Click process to generate your modified files</div>
                 </div>
             </div>
             
             <button type="button" class="btn btn-primary" id="processBtn" disabled>
-                <span>🚀 Process Document</span>
+                <span>🚀 Process Documents</span>
             </button>
             
             <div class="spinner" id="loadingSpinner">
-                <span>Processing your document...</span>
+                <span>Processing your documents...</span>
             </div>
             
             <div class="status-message" id="statusMessage"></div>
             
             <button type="button" class="btn btn-success" id="downloadBtn" style="display: none;">
-                <span>⬇️ Download Modified File</span>
+                <span>⬇️ Download Modified Files</span>
             </button>
         </div>
     </div>
+    
+    <!-- Firebase Authentication Script -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } 
+                from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        // Your Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyA4Erc0tr9QbRS9pBM7QUpCCUjeMrvAico",
+            authDomain: "pdf-edit-310b3.firebaseapp.com",
+            projectId: "pdf-edit-310b3",
+            storageBucket: "pdf-edit-310b3.appspot.com",
+            messagingSenderId: "365179162968",
+            appId: "1:365179162968:web:bf9e2498bd7c8937eed52d",
+            measurementId: "G-DF2B3SLTVN"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Check authentication state
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, show their email
+                document.getElementById('userEmail').textContent = user.email || 'Welcome!';
+            } else {
+                // User is signed out, redirect to login
+                window.location.href = '/login';
+            }
+        });
+
+        // Make logout function global
+        window.logout = async function() {
+            if (confirm('Are you sure you want to logout?')) {
+                try {
+                    await signOut(auth);
+                    window.location.href = '/logout';
+                } catch (error) {
+                    console.error('Logout error:', error);
+                    window.location.href = '/logout';
+                }
+            }
+        };
+    </script>
     
     <script>
         const fileInput = document.getElementById('pdf-file-input');
@@ -414,7 +559,7 @@
         const oldTextInput = document.getElementById('old_text');
         const newTextInput = document.getElementById('new_text');
         
-        let currentFile = null;
+        let currentFiles = [];
         
         // File upload handling
         fileUploadArea.addEventListener('click', () => fileInput.click());
@@ -431,34 +576,52 @@
         fileUploadArea.addEventListener('drop', (e) => {
             e.preventDefault();
             fileUploadArea.classList.remove('dragover');
-            const files = e.dataTransfer.files;
+            const files = Array.from(e.dataTransfer.files);
             if (files.length > 0) {
-                handleFileSelect(files[0]);
+                handleFileSelect(files);
             }
         });
         
         fileInput.addEventListener('change', (e) => {
             if (e.target.files.length > 0) {
-                handleFileSelect(e.target.files[0]);
+                handleFileSelect(Array.from(e.target.files));
             }
         });
         
-        function handleFileSelect(file) {
-            const allowedTypes = ['.pdf', '.csv', '.xml', '.xpt'];
-            const fileExt = '.' + file.name.split('.').pop().toLowerCase();
+        function handleFileSelect(files) {
+            const allowedTypes = ['.pdf', '.csv', '.xml', '.xpt', '.zip'];
+            const validFiles = [];
+            let totalSize = 0;
             
-            if (!allowedTypes.includes(fileExt)) {
-                showStatus('Please select a valid file type (PDF, CSV, XML, or XPT)', 'error');
-                return;
+            for (const file of files) {
+                const fileExt = '.' + file.name.split('.').pop().toLowerCase();
+                
+                if (!allowedTypes.includes(fileExt)) {
+                    showStatus(`Invalid file type: ${file.name}. Please select PDF, CSV, XML, XPT, or ZIP files.`, 'error');
+                    return;
+                }
+                
+                totalSize += file.size;
+                if (totalSize > 50 * 1024 * 1024) {
+                    showStatus('Total file size must be less than 50MB', 'error');
+                    return;
+                }
+                
+                validFiles.push(file);
             }
             
-            if (file.size > 16 * 1024 * 1024) {
-                showStatus('File size must be less than 16MB', 'error');
-                return;
+            currentFiles = validFiles;
+            
+            // Display file info
+            if (validFiles.length === 1) {
+                fileInfo.innerHTML = `📄 ${validFiles[0].name} (${formatFileSize(validFiles[0].size)})`;
+            } else {
+                const fileList = validFiles.map(file => 
+                    `<div class="file-item">📄 ${file.name} (${formatFileSize(file.size)})</div>`
+                ).join('');
+                fileInfo.innerHTML = `<div><strong>${validFiles.length} files selected:</strong></div>${fileList}`;
             }
             
-            currentFile = file;
-            fileInfo.innerHTML = `📄 ${file.name} (${formatFileSize(file.size)})`;
             fileInfo.style.display = 'block';
             checkFormValidity();
         }
@@ -473,10 +636,10 @@
         
         // Form validation
         function checkFormValidity() {
-            const hasFile = currentFile !== null;
+            const hasFiles = currentFiles.length > 0;
             const hasOldText = oldTextInput.value.trim() !== '';
             
-            processBtn.disabled = !(hasFile && hasOldText);
+            processBtn.disabled = !(hasFiles && hasOldText);
         }
         
         oldTextInput.addEventListener('input', checkFormValidity);
@@ -484,13 +647,18 @@
         
         // Process button click
         processBtn.addEventListener('click', async () => {
-            if (!currentFile || !oldTextInput.value.trim()) {
-                showStatus('Please select a file and enter text to find', 'error');
+            if (currentFiles.length === 0 || !oldTextInput.value.trim()) {
+                showStatus('Please select files and enter text to find', 'error');
                 return;
             }
             
             const formData = new FormData();
-            formData.append('pdf_file', currentFile);
+            
+            // Append all files
+            currentFiles.forEach(file => {
+                formData.append('pdf_file', file);
+            });
+            
             formData.append('old_text', oldTextInput.value.trim());
             formData.append('new_text', newTextInput.value.trim());
             
@@ -510,11 +678,19 @@
                 const blob = await response.blob();
                 const url = window.URL.createObjectURL(blob);
                 
+                // Determine download filename
+                let filename;
+                if (currentFiles.length === 1) {
+                    filename = `modified_${currentFiles[0].name}`;
+                } else {
+                    filename = 'modified_files.zip';
+                }
+                
                 // Store download URL for later use
                 downloadBtn.setAttribute('data-url', url);
-                downloadBtn.setAttribute('data-filename', `modified_${currentFile.name}`);
+                downloadBtn.setAttribute('data-filename', filename);
                 
-                showStatus('✅ Document processed successfully!', 'success');
+                showStatus('✅ Documents processed successfully!', 'success');
                 downloadBtn.style.display = 'flex';
                 
             } catch (error) {
@@ -570,7 +746,9 @@
         // Add some interactive animations
         document.querySelectorAll('.btn').forEach(btn => {
             btn.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-3px)';
+                if (!this.disabled) {
+                    this.style.transform = 'translateY(-3px)';
+                }
             });
             
             btn.addEventListener('mouseleave', function() {
@@ -591,4 +769,4 @@
         });
     </script>
 </body>
-</html>'''
+</html>
