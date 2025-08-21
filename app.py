@@ -11,12 +11,17 @@ import zipfile
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50MB max file size (increased for ZIP files)
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50MB max file size
 
 # Create uploads and templates directories
 UPLOAD_FOLDER = 'uploads'
+TEMPLATES_FOLDER = 'templates'
+
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
+
+if not os.path.exists(TEMPLATES_FOLDER):
+    os.makedirs(TEMPLATES_FOLDER)
 
 # ---------------- File Processing Functions ----------------
 
@@ -255,11 +260,13 @@ def upload_file():
         def remove_files():
             try:
                 for temp_file in temp_files:
-                    os.remove(temp_file)
+                    if os.path.exists(temp_file):
+                        os.remove(temp_file)
                 for processed_file in processed_files:
-                    os.remove(processed_file['path'])
-            except:
-                pass
+                    if os.path.exists(processed_file['path']):
+                        os.remove(processed_file['path'])
+            except Exception as e:
+                print(f"Error cleaning up files: {e}")
         
         # Schedule cleanup (in production, use a proper background task)
         import threading
@@ -270,17 +277,6 @@ def upload_file():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-
 if __name__ == '__main__':
-    # Get port from environment variable (Railway sets this automatically)
-    port = int(os.environ.get('PORT', 5000))
-    
-    # Check if running in production (Railway sets RAILWAY_ENVIRONMENT)
-    is_production = os.environ.get('RAILWAY_ENVIRONMENT') is not None
-    
-    if is_production:
-        # Production settings
-        app.run(host='0.0.0.0', port=port, debug=False)
-    else:
-        # Development settings
-        app.run(host='0.0.0.0', port=port, debug=True)
+    # Local development settings
+    app.run(debug=True)
